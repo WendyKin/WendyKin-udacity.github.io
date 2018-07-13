@@ -1,17 +1,11 @@
 ## 网站性能优化项目
 
-你要做的是尽可能优化这个在线项目的速度。注意，请应用你之前在[网站性能优化课程](https://cn.udacity.com/course/website-performance-optimization--ud884/)中学习的技术来优化关键渲染路径并使这个页面尽可能快的渲染。
+在线网址：
 
-开始前，请导出这个代码库并检查代码。
 
-### 指南
+#Part 1: 优化 index.html 
 
-####Part 1: 优化 index.html 的 PageSpeed Insights 得分
-
-以下是几个帮助你顺利开始本项目的提示：
-
-1. 将这个代码库导出
-2. 你可以运行一个本地服务器，以便在你的手机上检查这个站点
+* css/js文件压缩
 
 ```bash
   $> cd /你的工程目录
