@@ -1,51 +1,42 @@
-## 网站性能优化项目
+# 网站性能优化项目
 
 在线网址：
 
+本项目为优达学城前端进阶项目，对项目提供的网站进行了性能优化。本项目部分思路参考了[优达学城论坛](https://discussions.youdaxue.com)。
 
-#Part 1: 优化 index.html 
+本项目使用了gulp自动化构建工具，源代码在src目录下，生产代码在dist目录下。项目根目录下gulpfile.js中代码来自[论坛](https://discussions.youdaxue.com/t/gulp-for-mac/43138)。通过在工程目录中执行gulp build构建生产代码。
 
-* css/js文件压缩
 
-```bash
-  $> cd /你的工程目录
-  $> python -m SimpleHTTPServer 8080
-```
+## Part 1: 优化 index.html 
 
-1. 打开浏览器，访问 localhost:8080
-2. 下载 [ngrok](https://ngrok.com/) 并将其安装在你的工程根目录下，让你的本地服务器能够被远程访问。
+* css/font处理
 
-``` bash
-  $> cd /你的工程目录
-  $> ./ngrok http 8080
-```
+    * 内联style.css内容至index.html的head中，减少请求次数。
+    * 设置print.css的媒体查询为media = 'print',避免加载不必要的css资源。
+    * 加载字体使用webfontload方式，将字体加载请求转成js放在body末尾，使用wf-loading和wf-active定义未加载完时使用的字体，避免渲染阻塞。
+    * 使用gulp减小css文件体积。
 
-1. 复制ngrok提供给你的公共URL，然后尝试通过PageSpeed Insights访问它吧！可选阅读：[更多关于整合ngrok、Grunt和PageSpeed的信息](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)。
+* js处理
 
-接下来，你可以一遍又一遍的进行配置、优化、检测了！祝你好运！
+  * 外联js尽量使用异步加载(async)。
+  * 将js文件放在body末尾以避免阻塞。
+  * 使用gulp减小js文件体积。
 
-----
+* 图片压缩
 
-####Part 2: 优化 pizza.html 的 FPS（每秒帧数）
+    * 使用ps和gulp二次压缩图片。
+    * 缩减pizzaria.jpg的长宽，进一步减小图片体积。
+    
 
-你需要编辑 views/js/main.js 来优化 views/pizza.html，直到这个网页的 FPS 达到或超过 60fps。你会在 main.js 中找到一些对此有帮助的注释。
 
-你可以在 Chrome 开发者工具帮助中找到关于 FPS 计数器和 HUD 显示的有用信息。[Chrome 开发者工具帮助](https://developer.chrome.com/devtools/docs/tips-and-tricks).
+## Part 2: 优化 pizza.html 的 FPS（每秒帧数）
 
-### 一些关于优化的提示与诀窍
-* [web 性能优化](https://developers.google.com/web/fundamentals/performance/ "web 性能")
-* [分析关键渲染路径](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "分析关键渲染路径")
-* [优化关键渲染路径](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/optimizing-critical-rendering-path.html "优化关键渲染路径！")
-* [避免 CSS 渲染阻塞](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css.html "css渲染阻塞")
-* [优化 JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript.html "javascript")
-* [通过 Navigation Timing 进行检测](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/measure-crp.html "nav timing api")。在前两个课程中我们没有学习 Navigation Timing API，但它对于自动分析页面性能是一个非常有用的工具。我强烈推荐你阅读它。
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads.html">下载量越少，性能越好</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">减少文本的大小</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">优化图片</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP缓存</a>
+* 使用gulp进行css/js/图片压缩。
 
-### 使用 Bootstrap 并定制样式
-这个项目基于 Twitter 旗下的 <a href="http://getbootstrap.com/">Bootstrap框架</a> 制作。所有的定制样式都在项目代码库的 `dist/css/portfolio.css` 中。
+* 内联style.css内容至pizza.html.
 
-* <a href="http://getbootstrap.com/css/">Bootstrap CSS</a>
-* <a href="http://getbootstrap.com/components/">Bootstrap组件</a>
+* 使用 getElementById 代替 querySelector , 用 getElementsByClassName 代替 querySelectorAll 。
+
+* 修改 addEventListener 中 pizza 个数至40, updatePositions 中phase，减少计算量。
+
+* updatePositions 中 left 使用 transform 代替，避免引起频繁的页面重绘。  
