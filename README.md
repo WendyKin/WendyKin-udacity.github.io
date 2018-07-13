@@ -33,7 +33,7 @@
 
 * 使用gulp进行css/js/图片压缩。
 
-* 内联style.css内容至pizza.html.
+* 内联style.css内容至pizza.html.给bootstrap-grid.css加上media="none"避免css阻塞渲染。
 
 * 使用 getElementById 代替 querySelector , 用 getElementsByClassName 代替 querySelectorAll 。
 
